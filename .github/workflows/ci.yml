@@ -20,7 +20,11 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
-      - run: python -m pip install --upgrade pip
-      - run: python -m pip install -e .
-      - run: python -m unittest discover -s tests -v
-      - run: agfx run examples/crate.yaml --dry-run
+      - name: Upgrade pip
+        run: python -m pip install --upgrade pip
+      - name: Install package
+        run: python -m pip install -e .
+      - name: Unit and contract tests
+        run: python -m unittest discover -s tests -v
+      - name: Validate example schema and workflow graph
+        run: agfx plan examples/crate.yaml
