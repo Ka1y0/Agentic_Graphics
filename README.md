@@ -65,8 +65,8 @@ Not implemented yet: production 2D/2.5D adapters, NPR shaders, a general paralle
 Requires Python 3.9 or newer. Blender and Unreal are discovered only when a selected workflow needs them.
 
 ```bash
-git clone https://github.com/Ka1y0/agentic-graphics.git
-cd agentic-graphics
+git clone https://github.com/Ka1y0/agentic_graphics.git
+cd agentic_graphics
 python3 -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
 python -m pip install -e .

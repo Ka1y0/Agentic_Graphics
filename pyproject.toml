@@ -28,9 +28,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Ka1y0/agentic-graphics"
-Repository = "https://github.com/Ka1y0/agentic-graphics"
-Issues = "https://github.com/Ka1y0/agentic-graphics/issues"
+Homepage = "https://github.com/Ka1y0/agentic_graphics"
+Repository = "https://github.com/Ka1y0/agentic_graphics"
+Issues = "https://github.com/Ka1y0/agentic_graphics/issues"
 
 [project.scripts]
 agfx = "agentic_graphics.cli:main"
