@@ -1,0 +1,35 @@
+schema_version: "1"
+project:
+  name: stylized_crate
+intent:
+  description: >
+    Copyright-safe stylized wooden shipping crate made entirely from Blender primitives.
+representation:
+  type: "3d"
+generation:
+  adapter: blender_procedural
+  license: CC0-1.0
+  parameters:
+    shape: crate
+    bevel: 0.035
+geometry:
+  target_triangles: 12000
+  scale_meters: 1.0
+materials:
+  workflow: pbr
+  texture_resolution: 1024
+processing:
+  blender:
+    apply_transforms: true
+    validate_mesh: true
+    merge_by_distance: false
+output:
+  adapter: local
+  destination: processed.glb
+security:
+  human_reviewed_generated_code: true
+workflow:
+  - plan
+  - generate
+  - blender_process
+  - validate

@@ -1,0 +1,22 @@
+[tools]
+blender = "auto"
+unreal_editor_cmd = "auto"
+modly = "auto"
+
+[defaults]
+workspace = "./runs"
+generator = "manual"
+engine = "unreal"
+command_timeout_seconds = 300
+generated_code_timeout_seconds = 300
+unreal_timeout_seconds = 900
+
+[security]
+require_generated_code_approval = true
+allow_remote_modly = false
+
+[providers.openai_compatible]
+# API keys are read only from the named environment variable.
+base_url_env = "AGFX_OPENAI_BASE_URL"
+api_key_env = "AGFX_OPENAI_API_KEY"
+model_env = "AGFX_OPENAI_MODEL"

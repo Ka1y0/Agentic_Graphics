@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+dist/
+build/
+
+# Local configuration and credentials
+.env
+.env.*
+!*.example
+agentic-graphics.toml
+
+# Run artifacts and DCC/engine outputs
+runs/
+*.blend1
+*.blend2
+*.uasset
+*.umap
+*.uprojectdirs
+Saved/
+Intermediate/
+DerivedDataCache/
+Binaries/
+
+# OS/editor state
+.DS_Store
+.idea/
+.vscode/

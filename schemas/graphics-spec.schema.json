@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Ka1y0/agentic-graphics/schemas/graphics-spec.schema.json",
+  "title": "Agentic Graphics GraphicsSpec",
+  "description": "A provider-neutral intent and workflow description for agent-driven graphics.",
+  "type": "object",
+  "required": ["schema_version", "project", "intent", "representation", "generation", "workflow"],
+  "properties": {
+    "schema_version": {"const": "1"},
+    "project": {
+      "type": "object",
+      "required": ["name"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1, "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]*$"}
+      },
+      "additionalProperties": true
+    },
+    "intent": {
+      "type": "object",
+      "required": ["description"],
+      "properties": {"description": {"type": "string", "minLength": 1}},
+      "additionalProperties": true
+    },
+    "representation": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {"enum": ["2d", "2.5d", "3d", "hybrid"]}
+      },
+      "additionalProperties": true
+    },
+    "agent": {
+      "type": "object",
+      "properties": {
+        "adapter": {"enum": ["manual", "command", "openai_compatible"]},
+        "command": {
+          "oneOf": [
+            {"type": "string", "minLength": 1},
+            {"type": "array", "minItems": 1, "items": {"type": "string"}}
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "generation": {
+      "type": "object",
+      "required": ["adapter"],
+      "properties": {
+        "adapter": {"enum": ["manual", "modly", "blender_procedural"]},
+        "source": {"type": "string"},
+        "reference_image": {"type": "string"},
+        "parameters": {"type": "object"},
+        "model": {"type": "string"},
+        "license": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "geometry": {
+      "type": "object",
+      "properties": {
+        "target_triangles": {"type": "integer", "minimum": 1},
+        "scale_meters": {"type": "number", "exclusiveMinimum": 0}
+      },
+      "additionalProperties": true
+    },
+    "materials": {
+      "type": "object",
+      "properties": {
+        "workflow": {"type": "string"},
+        "texture_resolution": {"type": "integer", "minimum": 1}
+      },
+      "additionalProperties": true
+    },
+    "processing": {
+      "type": "object",
+      "properties": {
+        "blender": {
+          "type": "object",
+          "properties": {
+            "apply_transforms": {"type": "boolean"},
+            "validate_mesh": {"type": "boolean"},
+            "merge_by_distance": {"type": "boolean"},
+            "remove_degenerate": {"type": "boolean"},
+            "decimate_ratio": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "render_style": {
+      "type": "object",
+      "properties": {"type": {"type": "string"}},
+      "additionalProperties": true
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "adapter": {"enum": ["local", "unreal"]},
+        "destination": {"type": "string"},
+        "unreal_project": {"type": "string"},
+        "import_materials": {"const": true}
+      },
+      "additionalProperties": true
+    },
+    "security": {
+      "type": "object",
+      "properties": {
+        "human_reviewed_generated_code": {"type": "boolean"}
+      },
+      "additionalProperties": true
+    },
+    "workflow": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "oneOf": [
+          {"type": "string", "enum": ["plan", "generate", "blender_process", "validate", "unreal_import"]},
+          {
+            "type": "object",
+            "required": ["stage"],
+            "properties": {
+              "id": {"type": "string", "minLength": 1},
+              "stage": {"enum": ["plan", "generate", "blender_process", "validate", "unreal_import"]},
+              "depends_on": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+            },
+            "additionalProperties": true
+          }
+        ]
+      }
+    }
+  },
+  "additionalProperties": true
+}

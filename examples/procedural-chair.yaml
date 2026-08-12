@@ -1,0 +1,44 @@
+schema_version: "1"
+project:
+  name: procedural_chair
+intent:
+  description: A simple stylized chair assembled from copyright-safe primitives.
+representation:
+  type: "3d"
+generation:
+  adapter: blender_procedural
+  license: CC0-1.0
+  parameters:
+    shape: chair
+    bevel: 0.025
+geometry:
+  target_triangles: 8000
+  scale_meters: 1.0
+materials:
+  workflow: pbr
+processing:
+  blender:
+    apply_transforms: true
+    validate_mesh: true
+output:
+  adapter: unreal
+  destination: /Game/Generated/procedural_chair
+  unreal_project: /absolute/path/to/YourFixture.uproject
+  import_materials: true
+security:
+  human_reviewed_generated_code: true
+workflow:
+  - id: plan
+    stage: plan
+  - id: generate
+    stage: generate
+    depends_on: [plan]
+  - id: process
+    stage: blender_process
+    depends_on: [generate]
+  - id: validate
+    stage: validate
+    depends_on: [process]
+  - id: import
+    stage: unreal_import
+    depends_on: [validate]

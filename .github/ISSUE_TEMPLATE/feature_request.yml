@@ -1,0 +1,25 @@
+name: Adapter or workflow request
+description: Propose a real graphics-tool integration or workflow extension
+title: "[Request]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: use_case
+    attributes:
+      label: Use case
+    validations:
+      required: true
+  - type: textarea
+    id: interface
+    attributes:
+      label: Real external interface
+      description: Link or describe the documented API, CLI, MCP, extension, or file-handoff boundary.
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation and provenance
+      description: Explain how the adapter can prove outputs and record lineage.
+    validations:
+      required: true

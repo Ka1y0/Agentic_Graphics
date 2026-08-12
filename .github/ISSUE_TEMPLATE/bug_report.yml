@@ -1,0 +1,25 @@
+name: Bug report
+description: Report a reproducible Agentic Graphics defect
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Include a minimal spec and redacted report/log excerpts. Do not attach private assets or secrets.
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: Agentic Graphics, Python, and relevant tool versions
+    validations:
+      required: true
