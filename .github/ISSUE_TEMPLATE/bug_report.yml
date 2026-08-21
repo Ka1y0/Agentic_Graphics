@@ -1,5 +1,5 @@
 name: Bug report
-description: Report a reproducible Agentic Graphics defect
+description: Report a reproducible Agentic_Graphics defect
 title: "[Bug]: "
 labels: [bug]
 body:
@@ -20,6 +20,6 @@ body:
     id: versions
     attributes:
       label: Versions
-      description: Agentic Graphics, Python, and relevant tool versions
+      description: Agentic_Graphics, Python, and relevant tool versions
     validations:
       required: true

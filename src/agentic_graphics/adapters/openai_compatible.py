@@ -1,7 +1,7 @@
 """Optional OpenAI-compatible chat-completions adapter.
 
 The adapter is disabled unless its base URL, API key, and model are supplied by
-environment variables. Agentic Graphics has no provider account dependency.
+environment variables. Agentic_Graphics has no provider account dependency.
 """
 
 from __future__ import annotations

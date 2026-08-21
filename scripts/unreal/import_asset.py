@@ -1,6 +1,6 @@
 """Bounded Unreal Editor Python job for importing one validated mesh.
 
-The Agentic Graphics adapter passes only the job and report locations through
+The Agentic_Graphics adapter passes only the job and report locations through
 environment variables. This script never runs arbitrary Python from the job.
 """
 
@@ -65,7 +65,7 @@ def main():
         json.dump(payload, handle, indent=2, sort_keys=True)
         handle.write("\n")
     if errors:
-        raise RuntimeError("Agentic Graphics import failed; see JSON report")
+        raise RuntimeError("Agentic_Graphics import failed; see JSON report")
 
 
 if __name__ == "__main__":

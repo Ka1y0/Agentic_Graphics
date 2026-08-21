@@ -32,3 +32,11 @@ Binaries/
 .DS_Store
 .idea/
 .vscode/
+
+# Featured world build and capture outputs
+worlds/pixel_harbor/node_modules/
+worlds/pixel_harbor/dist/
+.demo_capture/
+*.mp4
+Pixel_Harbor_Reproducible_Workflow*.tar.gz
+*.bundle

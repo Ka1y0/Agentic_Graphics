@@ -1,6 +1,6 @@
 # Architecture
 
-Agentic Graphics treats graphics automation as a graph of bounded tool calls, not as a single vendor pipeline.
+Agentic_Graphics treats graphics automation as a graph of bounded tool calls, not as a single vendor pipeline.
 
 ```mermaid
 flowchart TD

@@ -1,3 +1,3 @@
-"""Agentic Graphics public package."""
+"""Agentic_Graphics public package."""
 
 __version__ = "0.1.0a1"
