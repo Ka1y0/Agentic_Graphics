@@ -1,0 +1,59 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: worlds/pixel_harbor/package-lock.json
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Install Pixel Harbor dependencies
+        working-directory: worlds/pixel_harbor
+        run: npm ci
+      - name: Build Pixel Harbor for the project site
+        working-directory: worlds/pixel_harbor
+        run: npm run build
+        env:
+          PIXEL_HARBOR_BASE: /Agentic_Graphics/pixel-harbor/
+      - name: Assemble Pages artifact
+        run: |
+          mkdir -p _site/assets _site/pixel-harbor
+          cp -R site/. _site/
+          cp docs/assets/pixel-harbor/hero-2d.png _site/assets/pixel-harbor-hero.png
+          cp -R worlds/pixel_harbor/dist/. _site/pixel-harbor/
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
