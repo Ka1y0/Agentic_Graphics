@@ -1,10 +1,20 @@
-# Agentic Graphics
+# Agentic_Graphics
 
-**Open workflows for agent-driven 2D, 2.5D, 3D, Blender, and real-time graphics pipelines.**
+**An open ecosystem for agent-driven visual creation, realtime rendering, world building, graphics production, and reproducible creative workflows.**
 
-Agentic Graphics is an independent, provider-neutral open-source substrate for turning visual intent into inspectable graphics workflows. Version 0.1 starts with the parts that are implemented and testable today: machine-readable specifications, composable workflow stages, procedural Blender generation, Blender asset processing and validation, optional Modly automation or file handoff, and Unreal Engine ingestion.
+Agentic_Graphics is a provider-neutral, representation-agnostic open ecosystem for turning visual intent into inspectable graphics workflows and complete visual artifacts. The implemented Python Core provides machine-readable specifications, workflow graphs, adapters, validation, provenance, Blender production paths, optional Modly automation or file handoff, and Unreal Engine ingestion. Complete reference worlds and rendering research can grow beside that stable Core without being misrepresented as automatic Core output.
 
 It is not a continuation of CyberOffice or CyberIsland, and it contains none of their implementation, scenes, projects, models, or production assets.
+
+![Pixel Harbor in the canonical 2D Ukiyo-e Pixel view](docs/assets/pixel-harbor/hero-2d.png)
+
+## Featured World: Pixel Harbor
+
+[**▶ Live Demo**](https://ka1y0.github.io/Agentic_Graphics/pixel-harbor/) · [**Source**](worlds/pixel_harbor/) · [**Technical Case Study**](docs/showcases/pixel-harbor.md)
+
+Pixel Harbor is a standalone Three.js reference world developed through an agentic graphics workflow. One Japanese harbor world switches in realtime between Ukiyo-e Pixel, Cel-Shaded, Blueprint, Minimal Pencil, ASCII / CRT, and Neon / Vaporwave while sharing geometry, world time, seasons, day/night state, NPC behavior, and its camera system.
+
+It demonstrates that agentic graphics workflows can grow into complete interactive visual worlds. The Agentic_Graphics Python Core does **not** claim to generate Pixel Harbor automatically.
 
 ```mermaid
 flowchart LR
@@ -23,7 +33,7 @@ flowchart LR
     E --> M[Future Hybrid Pipeline]
 ```
 
-## What is Agentic Graphics?
+## What is Agentic_Graphics?
 
 The project separates intent, orchestration, tool execution, artifacts, validation, and provenance:
 
@@ -33,6 +43,16 @@ Agent → GraphicsSpec → Workflow Graph → Adapters / Stages
 ```
 
 That separation matters. Modly is an optional generator, Blender is the first processing environment, and Unreal is the first real-time engine adapter; none is encoded as the permanent definition of the project.
+
+The repository has five conceptual areas:
+
+- **Core:** `GraphicsSpec`, workflow graph, adapters, validation, provenance, and orchestration;
+- **Worlds:** complete interactive reference projects, beginning with Pixel Harbor;
+- **Rendering Research:** NPR, pixel, toon/cel, outlines, stylized lighting, hybrid rendering, and WebGL/WebGPU experiments;
+- **Production:** asset workflows, Blender, AI 3D handoffs, Unreal, capture, reproducibility, and QA;
+- **Examples:** small deterministic fixtures rather than full projects.
+
+See the [vision](docs/vision.md), [project map](docs/project-map.md), [roadmap](docs/roadmap.md), [worlds](worlds/README.md), and [labs](labs/README.md).
 
 ## Philosophy
 
@@ -58,15 +78,15 @@ Implemented in 0.1 alpha:
 - cross-platform tool discovery, `doctor`, and safe dry-run;
 - unit/contract tests that do not assume Blender, Unreal, or Modly exists on a CI runner.
 
-Not implemented yet: production 2D/2.5D adapters, NPR shaders, a general parallel scheduler, a GUI, a cloud service, or an operating-system sandbox.
+Not implemented in the Python Core: production 2D/2.5D adapters, a general-purpose Three.js NPR adapter, a generic world generator, a universal hybrid runtime, a general parallel scheduler, a GUI, a cloud service, or an operating-system sandbox. Pixel Harbor demonstrates NPR, hybrid 2D/3D presentation, and a realtime world as a standalone reference implementation.
 
 ## Quick Start
 
 Requires Python 3.9 or newer. Blender and Unreal are discovered only when a selected workflow needs them.
 
 ```bash
-git clone https://github.com/Ka1y0/agentic_graphics.git
-cd agentic_graphics
+git clone https://github.com/Ka1y0/Agentic_Graphics.git
+cd Agentic_Graphics
 python3 -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
 python -m pip install -e .
@@ -206,7 +226,7 @@ This is **not an OS-level sandbox**. A reviewed Python process running inside Bl
 
 ## Future 2D / 2.5D / NPR directions
 
-The planned entry points are documented without fake adapters:
+General-purpose Core entry points remain planned and are documented without fake adapters. Pixel Harbor proves several of these ideas inside its own Three.js runtime; that working reference implementation does not make them reusable Core adapters yet.
 
 - [2D](docs/2d.md): image generators, procedural renderers, compositing, textures, sprites, UI assets, validation, and export;
 - [2.5D](docs/2_5d.md): layers, depth, cards, billboards, sprites in 3D space, parallax, and camera validation;
@@ -218,6 +238,6 @@ Contributions should add a real interface, deterministic fixtures, dry-run behav
 
 ## License and third-party attribution
 
-Agentic Graphics repository code and documentation are licensed under the [MIT License](LICENSE). MIT applies only to this repository's own work.
+Agentic_Graphics repository code and documentation are licensed under the [MIT License](LICENSE). MIT applies only to this repository's own work.
 
-Blender, Unreal Engine, Modly, external AI services, model weights, generated media, and third-party assets remain subject to their own licenses and terms. Agentic Graphics is not an official project of the Blender Foundation, Epic Games, Modly, OpenAI, Anthropic, Google, or xAI. No logos, proprietary code, licensed binaries, model weights, or third-party production assets are distributed here.
+Blender, Unreal Engine, Modly, external AI services, model weights, generated media, and third-party assets remain subject to their own licenses and terms. Agentic_Graphics is not an official project of the Blender Foundation, Epic Games, Modly, OpenAI, Anthropic, Google, or xAI. No logos, proprietary code, licensed binaries, model weights, or third-party production assets are distributed here.

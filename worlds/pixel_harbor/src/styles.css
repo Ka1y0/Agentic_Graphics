@@ -1,0 +1,493 @@
+/* ---------------------------------------------------------------------------
+   Pixel Harbor — page + HUD chrome
+   The HUD is plain DOM layered over the WebGL canvas (no Three.js geometry).
+   All spacing is a whole multiple of --px so nothing lands on a half pixel.
+--------------------------------------------------------------------------- */
+
+:root {
+  --px: 3px;
+
+  /* washi paper panels in a dark wood frame, with vermilion as the single
+     accent -- the same colour logic the world itself uses */
+  --ink:        #241f24;
+  --ink-soft:   #4a4034;
+  --parchment:  #e8e2cc;   /* washi */
+  --parchment2: #d6cdb2;
+  --frame:      #5e3f28;   /* dark wood */
+  --frame-hi:   #8a6141;
+  --accent:     #c8442e;   /* vermilion */
+  --sea:        #24587f;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #0c1218;
+  overflow: hidden;
+  font-family: ui-monospace, "SF Mono", "Menlo", "Consolas", "DejaVu Sans Mono", monospace;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The stage is sized in JS to exactly internalRes * pixelScale, and centred.
+   Any window remainder becomes an (at most 2px) letterbox border. */
+#stage {
+  position: relative;
+  line-height: 0;
+  box-shadow: 0 0 0 var(--px) #060a0e;
+}
+
+#view {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* --------------------------------------------------------------- HUD layer */
+/* The HUD frames the scene; it must never compete with it. Panels stay in the
+   corners, use one parchment tone, and everything is sized in whole multiples
+   of --px so no border ever lands on a half pixel. No CSS transforms with
+   fractional values, no border-radius, no shadows with blur. */
+#hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  line-height: 1.4;
+  color: var(--ink);
+  font-size: calc(var(--px) * 4.5);
+  letter-spacing: 0.02em;
+}
+
+#hud .panel {
+  position: absolute;
+  background: var(--parchment);
+  /* layered hard borders instead of a blurred shadow: outer ink line, frame,
+     inner highlight -- the classic 3-pixel RPG window edge */
+  border: var(--px) solid var(--frame);
+  box-shadow:
+    0 0 0 var(--px) var(--ink),
+    inset 0 0 0 var(--px) var(--parchment2);
+  padding: calc(var(--px) * 3);
+  image-rendering: pixelated;
+}
+
+#hud .panel h2 {
+  margin: 0 0 calc(var(--px) * 2) 0;
+  font-size: calc(var(--px) * 3.8);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--frame);
+  border-bottom: var(--px) solid var(--parchment2);
+  padding-bottom: calc(var(--px) * 1.5);
+}
+
+/* ---- clock / date, top right ---- */
+/* The information anchor of the top-right corner. Equal optical margin to the
+   top and right edges, and deliberately compact so it never crowds Fuji or the
+   sun disc, which share that corner of the composition. */
+#hud-clock {
+  top: calc(var(--px) * 3);
+  right: calc(var(--px) * 3);
+  min-width: calc(var(--px) * 42);
+  text-align: right;
+}
+#hud-clock .season {
+  font-size: calc(var(--px) * 5.5);
+  color: var(--ink);
+  letter-spacing: 0.06em;
+}
+#hud-clock .year {
+  color: var(--ink-soft);
+  font-size: calc(var(--px) * 4);
+}
+#hud-clock .weather {
+  color: var(--frame-hi);
+  margin-top: calc(var(--px) * 1);
+}
+#hud-clock .weather .icon { margin-right: calc(var(--px) * 1.5); }
+#hud-clock .time {
+  font-size: calc(var(--px) * 8);
+  line-height: 1.1;
+  color: var(--ink);
+  margin-top: calc(var(--px) * 1.5);
+  border-top: var(--px) solid var(--parchment2);
+  padding-top: calc(var(--px) * 1.5);
+}
+
+/* ---- season picker, top left ---- */
+#hud-season {
+  top: calc(var(--px) * 3);
+  left: calc(var(--px) * 3);
+  display: flex;
+  align-items: center;
+  gap: calc(var(--px) * 2);
+  pointer-events: auto;
+  padding: calc(var(--px) * 2);
+}
+#hud-season .label {
+  font-size: calc(var(--px) * 3.4);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--frame);
+}
+#hud-season .season-row { display: flex; gap: var(--px); }
+#hud-season button {
+  font: inherit;
+  font-size: calc(var(--px) * 3.6);
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  background: var(--parchment2);
+  border: var(--px) solid var(--frame);
+  border-radius: 0;
+  padding: calc(var(--px) * 0.8) calc(var(--px) * 1.6);
+  cursor: pointer;
+  image-rendering: pixelated;
+}
+#hud-season button:hover { background: #f7ecd0; }
+#hud-season button.active {
+  background: var(--frame);
+  color: var(--parchment);
+  box-shadow: inset 0 0 0 var(--px) var(--accent);
+}
+
+/* ---- mini map, bottom right ---- */
+#hud-map {
+  right: calc(var(--px) * 4);
+  bottom: calc(var(--px) * 4);
+  padding: calc(var(--px) * 2);
+}
+#hud-map canvas {
+  display: block;
+  image-rendering: pixelated;
+  width: calc(var(--px) * 52);
+  height: calc(var(--px) * 52);
+}
+/* North is up on the mini map, matching the world: the sea (local -Z) is north
+   and sits at the top of both the map and the default camera framing. */
+#hud-map { position: absolute; }
+#hud-map .compass { position: absolute; inset: calc(var(--px) * 2); pointer-events: none; }
+#hud-map .compass span {
+  position: absolute;
+  font-size: calc(var(--px) * 3);
+  line-height: 1;
+  color: var(--frame);
+  opacity: 0.55;
+}
+#hud-map .compass .n { top: calc(var(--px) * 1); left: 50%; margin-left: calc(var(--px) * -1); opacity: 0.95; }
+#hud-map .compass .s,
+#hud-map .compass .e,
+#hud-map .compass .w { display: none; }
+#hud.show-compass #hud-map .compass .s { display: block; bottom: calc(var(--px) * 5); left: 50%; margin-left: calc(var(--px) * -1); }
+#hud.show-compass #hud-map .compass .e { display: block; right: calc(var(--px) * 1); top: 50%; margin-top: calc(var(--px) * -1.5); }
+#hud.show-compass #hud-map .compass .w { display: block; left: calc(var(--px) * 1); top: 50%; margin-top: calc(var(--px) * -1.5); }
+
+#hud-map .maplabel {
+  font-size: calc(var(--px) * 3.2);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--frame);
+  text-align: center;
+  margin-top: calc(var(--px) * 1.5);
+}
+
+/* ---- view switch, bottom left ---- */
+#hud-view {
+  left: calc(var(--px) * 4);
+  bottom: calc(var(--px) * 4);
+  display: flex;
+  gap: calc(var(--px) * 2);
+  pointer-events: auto;
+  padding: calc(var(--px) * 2);
+}
+#hud-view button {
+  font: inherit;
+  font-size: calc(var(--px) * 4.5);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink);
+  background: var(--parchment2);
+  border: var(--px) solid var(--frame);
+  border-radius: 0;
+  padding: calc(var(--px) * 1.5) calc(var(--px) * 3);
+  cursor: pointer;
+  image-rendering: pixelated;
+}
+#hud-view button:hover { background: #f7ecd0; }
+#hud-view button.active {
+  background: var(--frame);
+  color: var(--parchment);
+  box-shadow: inset 0 0 0 var(--px) var(--accent);
+}
+
+/* ---- audio, bottom left above the view switch ---- */
+#hud-audio {
+  left: calc(var(--px) * 4);
+  bottom: calc(var(--px) * 36);
+  display: flex;
+  align-items: center;
+  gap: calc(var(--px) * 2);
+  pointer-events: auto;
+  padding: calc(var(--px) * 2);
+}
+#hud-audio button {
+  font: inherit;
+  font-size: calc(var(--px) * 3.6);
+  color: var(--ink);
+  background: var(--parchment2);
+  border: var(--px) solid var(--frame);
+  border-radius: 0;
+  padding: calc(var(--px) * 0.8) calc(var(--px) * 2);
+  cursor: pointer;
+}
+#hud-audio button.active { background: var(--frame); color: var(--parchment); }
+#hud-audio .vol {
+  width: calc(var(--px) * 26);
+  accent-color: var(--frame);
+  cursor: pointer;
+}
+
+/* ---- readout strip, bottom centre ---- */
+/* Diagnostics, not game UI: deliberately dim and small so it reads as a
+   developer overlay rather than part of the interface. */
+#hud-readout {
+  left: 50%;
+  /* a 50% translate can land on a half pixel; the JS pins this to a whole
+     pixel on resize and clears the transform */
+  transform: translateX(-50%);
+  bottom: calc(var(--px) * 4);
+  padding: calc(var(--px) * 1.5) calc(var(--px) * 3);
+  font-size: calc(var(--px) * 3.4);
+  color: var(--ink-soft);
+  white-space: nowrap;
+  opacity: 0.85;
+}
+#hud-readout b { color: var(--frame); font-weight: normal; }
+
+/* Public builds lead with the world, not the renderer diagnostics. The full
+   developer surface is intentionally available at ?debug=1. */
+body:not(.debug) #hud-readout { display: none; }
+
+/* ------------------------------------------------------------ style switcher */
+#hud-style {
+  left: calc(var(--px) * 4);
+  bottom: calc(var(--px) * 20);
+  display: flex;
+  align-items: center;
+  gap: calc(var(--px) * 2);
+  pointer-events: auto;
+  padding: calc(var(--px) * 2);
+}
+#hud-style .label {
+  font-size: calc(var(--px) * 3.4);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--frame);
+}
+#hud-style select {
+  font: inherit;
+  font-size: calc(var(--px) * 4);
+  color: var(--ink);
+  background: var(--parchment2);
+  border: var(--px) solid var(--frame);
+  border-radius: 0;
+  padding: calc(var(--px) * 0.5) calc(var(--px) * 1.5);
+  cursor: pointer;
+  image-rendering: pixelated;
+}
+#hud-style select option:disabled { color: #9a9384; }
+
+/* ------------------------------------------------------------ style wipe */
+/* A brief, low-contrast wash. The point of a style switch is that the world
+   does NOT move, so a heavy transition would hide the very continuity that is
+   worth showing. */
+#style-wipe {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 30;
+}
+
+/* ============================================================ HUD SKINS ==
+   The HUD keeps identical content and layout in every style; only its
+   material changes. Each skin re-points the same handful of tokens.        */
+
+/* washi paper + dark wood — the default, ukiyo-e */
+#hud.skin-washi { }
+
+/* cel: clean, bright, high-contrast animation UI */
+#hud.skin-cel {
+  --ink:        #1e2a38;
+  --ink-soft:   #46586b;
+  --parchment:  #ffffff;
+  --parchment2: #e2eef6;
+  --frame:      #2c4966;
+  --frame-hi:   #4d7ba6;
+  --accent:     #f2a93b;
+}
+
+/* blueprint: cyan linework on drafting blue */
+#hud.skin-blueprint {
+  --ink:        #d6e8ff;
+  --ink-soft:   #9dc2e8;
+  --parchment:  #10305a;
+  --parchment2: #17406f;
+  --frame:      #4f8dc9;
+  --frame-hi:   #8fc0e8;
+  --accent:     #78e0ff;
+}
+#hud.skin-blueprint .panel { box-shadow: 0 0 0 var(--px) #061b33, inset 0 0 0 var(--px) #1d4a7d; }
+
+/* pencil: graphite on toothed paper */
+#hud.skin-paper {
+  --ink:        #35302e;
+  --ink-soft:   #5f574f;
+  --parchment:  #e8e0cd;
+  --parchment2: #d8cfb8;
+  --frame:      #6a6058;
+  --frame-hi:   #8a7f72;
+  --accent:     #8a6141;
+}
+
+/* terminal: phosphor green on black */
+#hud.skin-neon {
+  --ink:        #ffd9f2;
+  --ink-soft:   #c78fe0;
+  --parchment:  #241249;
+  --parchment2: #3a1c6b;
+  --frame:      #ff45bb;
+  --frame-hi:   #2fd8e8;
+  --accent:     #2fd8e8;
+}
+
+#hud.skin-terminal {
+  --ink:        #7dff9d;
+  --ink-soft:   #4fbf6d;
+  --parchment:  #061208;
+  --parchment2: #0c2011;
+  --frame:      #2f7a45;
+  --frame-hi:   #66ff88;
+  --accent:     #b6ffc8;
+}
+#hud.skin-terminal .panel {
+  box-shadow: 0 0 0 var(--px) #000,
+              inset 0 0 0 var(--px) #123a1e,
+              0 0 calc(var(--px) * 2) rgba(102, 255, 136, 0.25);
+}
+#hud.skin-terminal #hud-clock .time { text-shadow: 0 0 calc(var(--px) * 2) rgba(102, 255, 136, 0.6); }
+
+/* --------------------------------------------------------------- lil-gui */
+/* lil-gui 0.21 prefixes its class names (`lil-root`, not `root`) and injects
+   its stylesheet at runtime, so these need both the right selector and enough
+   specificity to win. The GUI is created with autoPlace:false so it is
+   positioned here rather than pinned to the viewport. */
+.lil-gui.lil-root,
+.lil-gui.root {
+  --background-color: #16222e;
+  --widget-color: #2e4356;
+  --text-color: #d3e3ef;
+  --title-background-color: #0e1a24;
+  --font-size: 11px;
+  --input-font-size: 11px;
+  --name-width: 52%;
+
+  /* The season picker now owns the top-left corner, so the developer panel
+     drops directly beneath it: same column, clearly subordinate, still the
+     first thing found when looking for controls. Collapsed by default so it
+     reads as an entry point rather than a second HUD panel. */
+  position: absolute !important;
+  top: calc(var(--px) * 21) !important;
+  left: calc(var(--px) * 3) !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: 228px !important;
+  max-height: calc(100% - var(--px) * 46) !important;
+  overflow-y: auto;
+  z-index: 20;
+  box-shadow: 0 0 0 2px #060a0e;
+}
+
+/* the clock panel shares the top-right corner, so shift it left of the GUI */
+
+
+/* ===========================================================================
+   Cinematic demo
+   ===========================================================================
+   Only active while the DemoDirector is running. The normal app never gets
+   the `cinematic` class, so none of this affects default behaviour. */
+
+body.cinematic { cursor: none; }
+body.cinematic #hud-readout,
+body.cinematic #hud-view,
+body.cinematic #hud-style,
+body.cinematic #hud-audio,
+body.cinematic #hud-season,
+body.cinematic #hud-map,
+body.cinematic .lil-gui { display: none !important; }
+
+/* the date/time card stays, slightly receded so it reads as part of the frame */
+body.cinematic #hud-clock { opacity: 0.82; }
+
+#demo-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+}
+
+#demo-overlay .demo-black {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: 1;
+}
+
+#demo-overlay .demo-title {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+}
+#demo-overlay .demo-title span {
+  font: 700 42px/1 'Courier New', monospace;
+  letter-spacing: 0.62em;
+  text-indent: 0.62em;
+  color: #f3e6cf;
+  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.6), 0 0 26px rgba(0, 0, 0, 0.5);
+}
+
+/* Bottom left, over the village grass: clear of Fuji, the sun and both torii. */
+#demo-overlay .demo-caption {
+  position: absolute;
+  left: 64px;
+  bottom: 92px;
+  opacity: 0;
+  transition: none;
+}
+/* A plate, not a shadow.
+   Cream text with a dark shadow reads on the sea and disappears completely on
+   Pencil Sketch's paper — the caption has to survive six styles whose
+   backgrounds run from near-black to near-white, so it carries its own
+   ground. Kept dark, soft and small enough to stay a label. */
+#demo-overlay .demo-caption span {
+  display: inline-block;
+  padding: 9px 18px 9px 20px;
+  border-radius: 3px;
+  background: rgba(14, 16, 22, 0.46);
+  font: 700 21px/1 'Courier New', monospace;
+  letter-spacing: 0.40em;
+  text-indent: 0.40em;
+  color: #f6ecda;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.8);
+}

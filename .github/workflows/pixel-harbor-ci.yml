@@ -1,0 +1,34 @@
+name: Pixel Harbor CI
+
+on:
+  push:
+    paths:
+      - "worlds/pixel_harbor/**"
+      - ".github/workflows/pixel-harbor-ci.yml"
+  pull_request:
+    paths:
+      - "worlds/pixel_harbor/**"
+      - ".github/workflows/pixel-harbor-ci.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: worlds/pixel_harbor
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: worlds/pixel_harbor/package-lock.json
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Build Pixel Harbor
+        run: npm run build
+        env:
+          PIXEL_HARBOR_BASE: /Agentic_Graphics/pixel-harbor/

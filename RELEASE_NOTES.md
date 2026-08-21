@@ -1,4 +1,4 @@
-# Agentic Graphics v0.1.0-alpha.1
+# Agentic_Graphics v0.1.0-alpha.1
 
 The first open-source release establishes a provider-neutral substrate for agent-driven graphics workflows.
 

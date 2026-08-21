@@ -1,4 +1,4 @@
-"""Built-in Agentic Graphics adapters."""
+"""Built-in Agentic_Graphics adapters."""
 
 from .base import Adapter, AdapterError, AdapterResult, ValidationResult
 

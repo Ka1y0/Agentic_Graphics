@@ -1,6 +1,6 @@
 # Security design
 
-Agentic Graphics executes powerful local tools, so its default posture is explicit and inspectable.
+Agentic_Graphics executes powerful local tools, so its default posture is explicit and inspectable.
 
 ## Generated Blender Python
 

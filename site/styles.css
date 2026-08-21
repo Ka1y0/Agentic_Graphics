@@ -1,0 +1,170 @@
+:root {
+  color-scheme: dark;
+  --ink: #071522;
+  --ink-soft: #0b1d2d;
+  --paper: #f4ead4;
+  --muted: #c8c0ae;
+  --line: rgba(244, 234, 212, 0.22);
+  --vermilion: #c54d36;
+  --vermilion-bright: #e56b50;
+  --gutter: clamp(1.4rem, 3vw, 3.5rem);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  background: var(--ink);
+  color: var(--paper);
+  font-synthesis: none;
+}
+
+* { box-sizing: border-box; }
+
+html { background: var(--ink); }
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background: radial-gradient(circle at 64% 42%, var(--ink-soft) 0, var(--ink) 48%);
+}
+
+a { color: inherit; }
+
+.site-header,
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.5rem var(--gutter);
+  border-color: var(--line);
+}
+
+.site-header { border-bottom: 1px solid var(--line); }
+footer { border-top: 1px solid var(--line); color: var(--muted); font-size: 0.78rem; }
+
+.brand {
+  text-decoration: none;
+  font-size: clamp(1rem, 1.5vw, 1.35rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.text-link {
+  color: var(--vermilion-bright);
+  font-size: 0.82rem;
+  text-underline-offset: 0.45rem;
+  text-decoration-thickness: 1px;
+}
+
+main { display: grid; align-items: center; }
+
+.hero {
+  width: min(100%, 1700px);
+  margin: 0 auto;
+  padding: clamp(3rem, 8vh, 7rem) var(--gutter);
+  display: grid;
+  grid-template-columns: minmax(31rem, 0.82fr) minmax(36rem, 1.18fr);
+  gap: clamp(2rem, 3vw, 4rem);
+  align-items: center;
+}
+
+.hero-copy { min-width: 0; }
+
+h1,
+h2,
+p { margin-top: 0; }
+
+h1 {
+  margin-bottom: 1.5rem;
+  font-size: clamp(2.8rem, 3.6vw, 5rem);
+  line-height: 0.92;
+  letter-spacing: -0.085em;
+}
+
+.tagline {
+  max-width: 35rem;
+  color: var(--paper);
+  font-size: clamp(1rem, 1.4vw, 1.35rem);
+  line-height: 1.6;
+}
+
+.featured { margin-top: clamp(3rem, 8vh, 7rem); }
+
+.section-label {
+  margin-bottom: 0.8rem;
+  color: var(--vermilion-bright);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+h2 {
+  margin-bottom: 2rem;
+  font-size: clamp(2.4rem, 4.5vw, 5.25rem);
+  line-height: 0.95;
+  letter-spacing: -0.065em;
+}
+
+.actions { display: flex; flex-wrap: wrap; gap: 0.9rem; }
+
+.button {
+  min-height: 3.75rem;
+  padding: 1rem 1.3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  border: 1px solid var(--paper);
+  text-decoration: none;
+  font-size: 0.9rem;
+  line-height: 1;
+  transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+.button-primary { background: var(--vermilion); }
+.button-secondary { background: transparent; }
+
+.button:hover { transform: translateY(-2px); }
+.button-primary:hover { background: var(--vermilion-bright); }
+.button-secondary:hover { background: var(--paper); color: var(--ink); }
+.button:focus-visible, .text-link:focus-visible, .brand:focus-visible, .hero-media:focus-visible { outline: 3px solid var(--vermilion-bright); outline-offset: 5px; }
+
+.hero-media {
+  display: block;
+  border: 1px solid var(--line);
+  background: #9cb8c7;
+  box-shadow: 1.25rem 1.25rem 0 rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.hero-media img {
+  width: 100%;
+  height: auto;
+  display: block;
+  image-rendering: pixelated;
+}
+
+@media (max-width: 960px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding-top: 3.5rem;
+    padding-bottom: 4rem;
+  }
+
+  .hero-media { grid-row: 1; box-shadow: 0.75rem 0.75rem 0 rgba(0, 0, 0, 0.2); }
+  .featured { margin-top: 3rem; }
+}
+
+@media (max-width: 560px) {
+  .site-header { padding-block: 1.1rem; }
+  .hero { gap: 2.25rem; }
+  h1 { font-size: clamp(2.05rem, 7.4vw, 2.65rem); }
+  h2 { font-size: clamp(2.5rem, 15vw, 4rem); }
+  .actions { display: grid; }
+  .button { width: 100%; }
+  footer { align-items: flex-start; flex-direction: column; gap: 0.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button { transition: none; }
+}

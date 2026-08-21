@@ -1,4 +1,4 @@
-"""Environment diagnostics for Agentic Graphics."""
+"""Environment diagnostics for Agentic_Graphics."""
 
 from __future__ import annotations
 

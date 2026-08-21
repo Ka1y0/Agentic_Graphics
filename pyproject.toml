@@ -5,11 +5,11 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "agentic-graphics"
 version = "0.1.0a1"
-description = "Open workflows for agent-driven 2D, 2.5D, 3D, Blender, and real-time graphics pipelines."
+description = "Open workflows for agent-driven visual creation, graphics production, and reproducible pipelines."
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
-authors = [{ name = "Agentic Graphics contributors" }]
+authors = [{ name = "Agentic_Graphics contributors" }]
 keywords = ["agents", "llm", "graphics", "blender", "unreal-engine", "procedural-generation"]
 classifiers = [
   "Development Status :: 3 - Alpha",
@@ -28,9 +28,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Ka1y0/agentic_graphics"
-Repository = "https://github.com/Ka1y0/agentic_graphics"
-Issues = "https://github.com/Ka1y0/agentic_graphics/issues"
+Homepage = "https://ka1y0.github.io/Agentic_Graphics/"
+Repository = "https://github.com/Ka1y0/Agentic_Graphics"
+Issues = "https://github.com/Ka1y0/Agentic_Graphics/issues"
 
 [project.scripts]
 agfx = "agentic_graphics.cli:main"
