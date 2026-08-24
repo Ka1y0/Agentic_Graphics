@@ -31,4 +31,4 @@ jobs:
       - name: Build Pixel Harbor
         run: npm run build
         env:
-          PIXEL_HARBOR_BASE: /Agentic_Graphics/pixel-harbor/
+          PIXEL_HARBOR_BASE: /Tool_Agentic_Graphics/pixel-harbor/

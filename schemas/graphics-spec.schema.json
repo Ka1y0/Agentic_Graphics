@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/Ka1y0/Agentic_Graphics/schemas/graphics-spec.schema.json",
+  "$id": "https://github.com/Ka1y0/Tool_Agentic_Graphics/schemas/graphics-spec.schema.json",
   "title": "Agentic_Graphics GraphicsSpec",
   "description": "A provider-neutral intent and workflow description for agent-driven graphics.",
   "type": "object",

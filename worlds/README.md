@@ -14,5 +14,5 @@ Worlds are complete interactive reference projects built through Agentic_Graphic
 
 Pixel Harbor is the first featured world: a standalone Three.js reference project developed through an agentic graphics workflow. It demonstrates how an iterative workflow can grow into a complete interactive visual world; it is not generated automatically by the Agentic_Graphics Python Core.
 
-- [Live demo](https://ka1y0.github.io/Agentic_Graphics/pixel-harbor/)
+- [Live demo](https://ka1y0.github.io/Tool_Agentic_Graphics/pixel-harbor/)
 - [Technical case study](../docs/showcases/pixel-harbor.md)

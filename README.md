@@ -10,7 +10,7 @@ It is not a continuation of CyberOffice or CyberIsland, and it contains none of 
 
 ## Featured World: Pixel Harbor
 
-[**▶ Live Demo**](https://ka1y0.github.io/Agentic_Graphics/pixel-harbor/) · [**Source**](worlds/pixel_harbor/) · [**Technical Case Study**](docs/showcases/pixel-harbor.md)
+[**▶ Live Demo**](https://ka1y0.github.io/Tool_Agentic_Graphics/pixel-harbor/) · [**Source**](worlds/pixel_harbor/) · [**Technical Case Study**](docs/showcases/pixel-harbor.md)
 
 Pixel Harbor is a standalone Three.js reference world developed through an agentic graphics workflow. One Japanese harbor world switches in realtime between Ukiyo-e Pixel, Cel-Shaded, Blueprint, Minimal Pencil, ASCII / CRT, and Neon / Vaporwave while sharing geometry, world time, seasons, day/night state, NPC behavior, and its camera system.
 
@@ -85,8 +85,8 @@ Not implemented in the Python Core: production 2D/2.5D adapters, a general-purpo
 Requires Python 3.9 or newer. Blender and Unreal are discovered only when a selected workflow needs them.
 
 ```bash
-git clone https://github.com/Ka1y0/Agentic_Graphics.git
-cd Agentic_Graphics
+git clone https://github.com/Ka1y0/Tool_Agentic_Graphics.git
+cd Tool_Agentic_Graphics
 python3 -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
 python -m pip install -e .

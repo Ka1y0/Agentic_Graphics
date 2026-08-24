@@ -34,7 +34,7 @@ jobs:
         working-directory: worlds/pixel_harbor
         run: npm run build
         env:
-          PIXEL_HARBOR_BASE: /Agentic_Graphics/pixel-harbor/
+          PIXEL_HARBOR_BASE: /Tool_Agentic_Graphics/pixel-harbor/
       - name: Assemble Pages artifact
         run: |
           mkdir -p _site/assets _site/pixel-harbor

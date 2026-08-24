@@ -4,7 +4,7 @@
 
 ![Pixel Harbor in the canonical 2D Ukiyo-e Pixel view](../../docs/assets/pixel-harbor/hero-2d.png)
 
-[Launch the live demo](https://ka1y0.github.io/Agentic_Graphics/pixel-harbor/) · [Read the technical case study](../../docs/showcases/pixel-harbor.md)
+[Launch the live demo](https://ka1y0.github.io/Tool_Agentic_Graphics/pixel-harbor/) · [Read the technical case study](../../docs/showcases/pixel-harbor.md)
 
 ## What is Pixel Harbor?
 
@@ -68,8 +68,8 @@ The pixel-art appearance does **not** begin with full-resolution 3D followed by 
 Requires Node.js 20.19+ (Node 22 LTS is used in CI).
 
 ```bash
-git clone https://github.com/Ka1y0/Agentic_Graphics.git
-cd Agentic_Graphics/worlds/pixel_harbor
+git clone https://github.com/Ka1y0/Tool_Agentic_Graphics.git
+cd Tool_Agentic_Graphics/worlds/pixel_harbor
 npm ci
 npm run dev
 ```
@@ -83,9 +83,9 @@ npm run preview
 
 ## Public and debug modes
 
-The normal [live demo](https://ka1y0.github.io/Agentic_Graphics/pixel-harbor/) shows the public world controls: season, style, audio, 2D/3D view, and date/time. Audio starts off and Web Audio is created only after a user gesture.
+The normal [live demo](https://ka1y0.github.io/Tool_Agentic_Graphics/pixel-harbor/) shows the public world controls: season, style, audio, 2D/3D view, and date/time. Audio starts off and Web Audio is created only after a user gesture.
 
-Append [`?debug=1`](https://ka1y0.github.io/Agentic_Graphics/pixel-harbor/?debug=1) to expose the shader controls, render buffers, diagnostics, self-test hooks, time controls, and the full developer panel. `H` toggles that panel only in debug mode.
+Append [`?debug=1`](https://ka1y0.github.io/Tool_Agentic_Graphics/pixel-harbor/?debug=1) to expose the shader controls, render buffers, diagnostics, self-test hooks, time controls, and the full developer panel. `H` toggles that panel only in debug mode.
 
 ## Canonical cameras
 
